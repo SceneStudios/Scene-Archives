@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>STUDIO_SYS_v1.2</title>
+
+  <!-- IMPORTANT for mobile scaling -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="crt">
+
+    <!-- LOGIN SCREEN -->
+    <div id="login" class="window">
+      <div class="title-bar">STUDIO TERMINAL</div>
+
+      <div class="window-content">
+        <p class="prompt">Enter_Password</p>
+
+        <input
+          type="password"
+          id="passwordInput"
+          autocomplete="off"
+        >
+
+        <button onclick="checkPassword()">VERIFY</button>
+
+        <p id="error" class="error hidden">Password_Incorrect</p>
+      </div>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="content" class="window hidden">
+      <div class="title-bar">ARCHIVE ACCESS</div>
+
+      <div class="window-content">
+
+        <p class="warning">These files were not meant to be found.</p>
+
+        <button onclick="revealNextLog()">ACCESS LOG</button>
+
+        <div id="logs">
+          <p class="log hidden" id="log1"></p>
+          <p class="log hidden" id="log2"></p>
+          <p class="log hidden" id="log3"></p>
+        </div>
+
+        <details class="dropdown">
+          <summary>Attraction_Details</summary>
+          <div class="dropdown-content">
+            <button onclick="accessProto()">Ribbles_Proto</button>
+            <p id="protoMessage" class="error hidden"></p>
+          </div>
+        </details>
+
+      </div>
+    </div>
+
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

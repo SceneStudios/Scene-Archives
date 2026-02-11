@@ -4,12 +4,9 @@
   <meta charset="UTF-8">
   <title>STUDIO_SYS_v1.2</title>
 
-  <!-- IMPORTANT for mobile scaling -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- ===== EMBEDDED CSS ===== -->
   <style>
-    /* Base reset */
     * { box-sizing: border-box; }
 
     body {
@@ -28,7 +25,6 @@
       width: 100%;
       max-width: 900px;
       min-height: 500px;
-      box-shadow: none;
     }
 
     .crt::after {
@@ -163,18 +159,33 @@
     <div id="protoContainer" class="window hidden">
       <div class="title-bar">Ribbles_Proto</div>
       <div class="window-content">
-        <img src="/mnt/data/Screenshot 2026-02-10 194320.png" alt="Ribbles Proto Image">
+
+        <div style="display:flex; flex-wrap:wrap; justify-content:center; gap:25px;">
+
+          <!-- DETAILS -->
+          <div style="max-width:300px; text-align:left;">
+            <p id="protoDetails"></p>
+          </div>
+
+          <!-- IMAGE -->
+          <div>
+            <img src="/attachments/wJFCVHTSKUW24DF5qkWzH.png"
+                 alt="Ribbles Proto Image"
+                 style="max-width:300px; border:2px solid #33ff33;">
+          </div>
+
+        </div>
+
         <button id="backButton" onclick="closeProto()">BACK</button>
       </div>
     </div>
 
   </div>
 
-  <!-- ===== EMBEDDED JS ===== -->
   <script>
     let currentLog = 0;
     const correctPassword = "Scene_Studios";
-    const protoPassword = "Be_Still";
+    const protoPassword = "The frog";
     const typingSpeed = 30;
 
     function checkPassword() {
@@ -230,6 +241,9 @@
       if (input === protoPassword) {
         document.getElementById("content").classList.add("hidden");
         document.getElementById("protoContainer").classList.remove("hidden");
+
+        document.getElementById("protoDetails").innerHTML =
+          "6,2<br>153 pounds<br>4 movement sensors<br>20 stabilizers<br>2 air cylinders";
       } else {
         typeText(message, "ACCESS DENIED. PASSWORD INCORRECT.");
       }

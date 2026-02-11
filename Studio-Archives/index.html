@@ -92,22 +92,6 @@
     .dropdown { margin-top: 30px; }
     .dropdown summary { cursor: pointer; font-size: clamp(14px, 2vw, 18px); }
     .hidden { display: none; }
-
-    #protoContainer {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-    }
-
-    #backButton {
-      margin-top: 20px;
-    }
-
-    @media (max-width: 600px) {
-      .crt { box-shadow: none; }
-      .title-bar { text-align: center; }
-    }
   </style>
 </head>
 <body>
@@ -145,31 +129,6 @@
             <p id="protoMessage" class="error hidden"></p>
           </div>
         </details>
-      </div>
-    </div>
-
-    <!-- PROTO VIEWER -->
-    <div id="protoContainer" class="window hidden">
-      <div class="title-bar">Ribbles_Proto</div>
-      <div class="window-content">
-
-        <div style="display:flex; flex-wrap:wrap; justify-content:center; gap:25px;">
-
-          <!-- DETAILS -->
-          <div style="max-width:300px; text-align:left;">
-            <p id="protoDetails"></p>
-          </div>
-
-          <!-- IMAGE -->
-          <div>
-            <img src="/attachments/wJFCVHTSKUW24DF5qkWzH.png"
-                 alt="Ribbles Proto Image"
-                 style="max-width:300px; border:2px solid #33ff33;">
-          </div>
-
-        </div>
-
-        <button id="backButton" onclick="closeProto()">BACK</button>
       </div>
     </div>
 
@@ -227,6 +186,7 @@
       return result;
     }
 
+    /* Dynamic Ribbles_Proto panel */
     function accessProto() {
       const input = prompt("ENTER PASSWORD:");
       const message = document.getElementById("protoMessage");
@@ -234,26 +194,48 @@
       message.classList.add("hidden");
       message.textContent = "";
 
-      if (input === protoPassword) {
-        document.getElementById("content").classList.add("hidden");
-        document.getElementById("protoContainer").classList.remove("hidden");
-
-        document.getElementById("protoDetails").innerHTML =
-          "6,2<br>153 pounds<br>4 movement sensors<br>20 stabilizers<br>2 air cylinders";
-
-      } else {
+      if (input !== protoPassword) {
         typeText(message, "ACCESS DENIED. PASSWORD INCORRECT.");
         message.classList.remove("hidden");
+        return;
       }
+
+      document.getElementById("content").classList.add("hidden");
+
+      const protoHTML = `
+        <div id="protoContainer" class="window">
+          <div class="title-bar">Ribbles_Proto</div>
+          <div class="window-content">
+
+            <div style="display:flex; flex-wrap:wrap; justify-content:center; gap:25px;">
+              <div style="max-width:300px; text-align:left;">
+                <p>
+                  6,2<br>
+                  153 pounds<br>
+                  4 movement sensors<br>
+                  20 stabilizers<br>
+                  2 air cylinders
+                </p>
+              </div>
+
+              <div>
+                <img src="/attachments/wJFCVHTSKUW24DF5qkWzH.png"
+                     alt="Ribbles Proto Image"
+                     style="max-width:300px; border:2px solid #33ff33;">
+              </div>
+            </div>
+
+            <button id="backButton" onclick="closeProto()">BACK</button>
+          </div>
+        </div>
+      `;
+
+      document.querySelector(".crt").insertAdjacentHTML("beforeend", protoHTML);
     }
 
     function closeProto() {
-      document.getElementById("protoContainer").classList.add("hidden");
-      document.getElementById("protoDetails").innerHTML = "";
-
-      const message = document.getElementById("protoMessage");
-      message.classList.add("hidden");
-      message.textContent = "";
+      const proto = document.getElementById("protoContainer");
+      if (proto) proto.remove();
 
       document.getElementById("content").classList.remove("hidden");
     }
@@ -261,3 +243,4 @@
 
 </body>
 </html>
+

@@ -92,13 +92,52 @@
     .dropdown { margin-top: 30px; }
     .dropdown summary { cursor: pointer; font-size: clamp(14px, 2vw, 18px); }
     .hidden { display: none; }
+
+    @keyframes crtOn {
+      0% {
+        opacity: 0;
+        transform: scaleY(0.05);
+        filter: brightness(500%);
+      }
+      20% {
+        opacity: 1;
+        transform: scaleY(0.1);
+        filter: brightness(300%);
+      }
+      40% {
+        transform: scaleY(1.2);
+        filter: brightness(150%);
+      }
+      60% {
+        transform: scaleY(0.9);
+        filter: brightness(120%);
+      }
+      80% {
+        transform: scaleY(1.05);
+        filter: brightness(100%);
+      }
+      100% {
+        opacity: 1;
+        transform: scaleY(1);
+        filter: brightness(100%);
+      }
+    }
+
+    @keyframes crtFlicker {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.85; }
+    }
+
+    .crt-boot {
+      animation: crtOn 0.45s ease-out, crtFlicker 0.8s steps(2) 0.45s;
+      transform-origin: center top;
+    }
   </style>
 </head>
 <body>
 
   <div class="crt">
 
-    <!-- LOGIN SCREEN -->
     <div id="login" class="window">
       <div class="title-bar">STUDIO TERMINAL</div>
       <div class="window-content">
@@ -109,7 +148,6 @@
       </div>
     </div>
 
-    <!-- MAIN CONTENT -->
     <div id="content" class="window hidden">
       <div class="title-bar">ARCHIVE ACCESS</div>
       <div class="window-content">
@@ -202,7 +240,7 @@
       document.getElementById("content").classList.add("hidden");
 
       const protoHTML = `
-        <div id="protoContainer" class="window">
+        <div id="protoContainer" class="window crt-boot">
           <div class="title-bar">Ribbles_Proto</div>
           <div class="window-content">
 

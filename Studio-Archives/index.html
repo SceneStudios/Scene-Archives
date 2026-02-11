@@ -100,12 +100,6 @@
       text-align: center;
     }
 
-    #protoContainer img {
-      max-width: 80%;
-      margin: 20px 0;
-      border: 2px solid #33ff33;
-    }
-
     #backButton {
       margin-top: 20px;
     }
@@ -113,7 +107,6 @@
     @media (max-width: 600px) {
       .crt { box-shadow: none; }
       .title-bar { text-align: center; }
-      #protoContainer img { max-width: 100%; }
     }
   </style>
 </head>
@@ -238,19 +231,30 @@
       const input = prompt("ENTER PASSWORD:");
       const message = document.getElementById("protoMessage");
 
+      message.classList.add("hidden");
+      message.textContent = "";
+
       if (input === protoPassword) {
         document.getElementById("content").classList.add("hidden");
         document.getElementById("protoContainer").classList.remove("hidden");
 
         document.getElementById("protoDetails").innerHTML =
           "6,2<br>153 pounds<br>4 movement sensors<br>20 stabilizers<br>2 air cylinders";
+
       } else {
         typeText(message, "ACCESS DENIED. PASSWORD INCORRECT.");
+        message.classList.remove("hidden");
       }
     }
 
     function closeProto() {
       document.getElementById("protoContainer").classList.add("hidden");
+      document.getElementById("protoDetails").innerHTML = "";
+
+      const message = document.getElementById("protoMessage");
+      message.classList.add("hidden");
+      message.textContent = "";
+
       document.getElementById("content").classList.remove("hidden");
     }
   </script>

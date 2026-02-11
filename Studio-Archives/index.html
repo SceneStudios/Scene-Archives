@@ -10,11 +10,8 @@
   <!-- ===== EMBEDDED CSS ===== -->
   <style>
     /* Base reset */
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
-    /* Page */
     body {
       background: #000;
       color: #33ff33;
@@ -26,17 +23,14 @@
       padding: 20px;
     }
 
-    /* CRT container */
     .crt {
       position: relative;
       width: 100%;
       max-width: 900px;
       min-height: 500px;
-      /* Removed green glow */
       box-shadow: none;
     }
 
-    /* Scanlines */
     .crt::after {
       content: "";
       position: absolute;
@@ -50,13 +44,11 @@
       pointer-events: none;
     }
 
-    /* Window */
     .window {
       border: 3px solid #33ff33;
       margin-bottom: 20px;
     }
 
-    /* Title bar */
     .title-bar {
       background: #003300;
       padding: 10px;
@@ -64,28 +56,15 @@
       border-bottom: 3px solid #33ff33;
     }
 
-    /* Content */
     .window-content {
       padding: clamp(15px, 3vw, 30px);
       font-size: clamp(14px, 2.2vw, 18px);
     }
 
-    /* Text */
-    .prompt {
-      margin-bottom: 15px;
-    }
+    .prompt { margin-bottom: 15px; }
+    .warning { color: #ff4444; margin-bottom: 15px; }
+    .log { margin-top: 15px; word-wrap: break-word; }
 
-    .warning {
-      color: #ff4444;
-      margin-bottom: 15px;
-    }
-
-    .log {
-      margin-top: 15px;
-      word-wrap: break-word;
-    }
-
-    /* Inputs */
     input {
       background: black;
       color: #33ff33;
@@ -97,7 +76,6 @@
       font-family: inherit;
     }
 
-    /* Buttons */
     button {
       background: black;
       color: #33ff33;
@@ -114,37 +92,32 @@
       color: black;
     }
 
-    /* Errors */
-    .error {
-      color: #ff3333;
-      font-size: 0.8em;
-      margin-top: 10px;
+    .error { color: #ff3333; font-size: 0.8em; margin-top: 10px; }
+    .dropdown { margin-top: 30px; }
+    .dropdown summary { cursor: pointer; font-size: clamp(14px, 2vw, 18px); }
+    .hidden { display: none; }
+
+    #protoContainer {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
     }
 
-    /* Dropdown */
-    .dropdown {
-      margin-top: 30px;
+    #protoContainer img {
+      max-width: 80%;
+      margin: 20px 0;
+      border: 2px solid #33ff33;
     }
 
-    .dropdown summary {
-      cursor: pointer;
-      font-size: clamp(14px, 2vw, 18px);
+    #backButton {
+      margin-top: 20px;
     }
 
-    /* Utility */
-    .hidden {
-      display: none;
-    }
-
-    /* Mobile tweaks */
     @media (max-width: 600px) {
-      .crt {
-        box-shadow: none;
-      }
-
-      .title-bar {
-        text-align: center;
-      }
+      .crt { box-shadow: none; }
+      .title-bar { text-align: center; }
+      #protoContainer img { max-width: 100%; }
     }
   </style>
 </head>
@@ -155,18 +128,10 @@
     <!-- LOGIN SCREEN -->
     <div id="login" class="window">
       <div class="title-bar">STUDIO TERMINAL</div>
-
       <div class="window-content">
         <p class="prompt">Enter_Password</p>
-
-        <input
-          type="password"
-          id="passwordInput"
-          autocomplete="off"
-        >
-
+        <input type="password" id="passwordInput" autocomplete="off">
         <button onclick="checkPassword()">VERIFY</button>
-
         <p id="error" class="error hidden">Password_Incorrect</p>
       </div>
     </div>
@@ -174,11 +139,8 @@
     <!-- MAIN CONTENT -->
     <div id="content" class="window hidden">
       <div class="title-bar">ARCHIVE ACCESS</div>
-
       <div class="window-content">
-
         <p class="warning">These files were not meant to be found.</p>
-
         <button onclick="revealNextLog()">ACCESS LOG</button>
 
         <div id="logs">
@@ -194,7 +156,15 @@
             <p id="protoMessage" class="error hidden"></p>
           </div>
         </details>
+      </div>
+    </div>
 
+    <!-- PROTO VIEWER -->
+    <div id="protoContainer" class="window hidden">
+      <div class="title-bar">Ribbles_Proto</div>
+      <div class="window-content">
+        <img src="/mnt/data/Screenshot 2026-02-10 194320.png" alt="Ribbles Proto Image">
+        <button id="backButton" onclick="closeProto()">BACK</button>
       </div>
     </div>
 
@@ -204,7 +174,8 @@
   <script>
     let currentLog = 0;
     const correctPassword = "Scene_Studios";
-    const typingSpeed = 30; // lower = faster typing
+    const protoPassword = "Be_Still";
+    const typingSpeed = 30;
 
     function checkPassword() {
       const input = document.getElementById("passwordInput").value;
@@ -220,42 +191,26 @@
 
     function revealNextLog() {
       currentLog++;
-
       if (currentLog === 1) {
-        typeText(
-          document.getElementById("log1"),
-          "LOG 01: The mascot was never decommissioned."
-        );
+        typeText(document.getElementById("log1"), "LOG 01: The mascot was never decommissioned.");
       }
-
       if (currentLog === 2) {
-        typeText(
-          document.getElementById("log2"),
-          "LOG 02: He is still here. He never left. He is watching us."
-        );
+        typeText(document.getElementById("log2"), "LOG 02: He is still here. He never left. He is watching us.");
       }
-
       if (currentLog === 3) {
         const symbols = generateSymbols(40);
-        typeText(
-          document.getElementById("log3"),
-          "LOG 03: " + symbols
-        );
+        typeText(document.getElementById("log3"), "LOG 03: " + symbols);
       }
     }
 
     function typeText(element, text) {
       element.classList.remove("hidden");
       element.textContent = "";
-
       let index = 0;
       const interval = setInterval(() => {
         element.textContent += text.charAt(index);
         index++;
-
-        if (index >= text.length) {
-          clearInterval(interval);
-        }
+        if (index >= text.length) clearInterval(interval);
       }, typingSpeed);
     }
 
@@ -269,10 +224,20 @@
     }
 
     function accessProto() {
-      prompt("ENTER PASSWORD:");
-
+      const input = prompt("ENTER PASSWORD:");
       const message = document.getElementById("protoMessage");
-      typeText(message, "ACCESS UNAVAILABLE. FILE INCOMPLETE.");
+
+      if (input === protoPassword) {
+        document.getElementById("content").classList.add("hidden");
+        document.getElementById("protoContainer").classList.remove("hidden");
+      } else {
+        typeText(message, "ACCESS DENIED. PASSWORD INCORRECT.");
+      }
+    }
+
+    function closeProto() {
+      document.getElementById("protoContainer").classList.add("hidden");
+      document.getElementById("content").classList.remove("hidden");
     }
   </script>
 
